@@ -1,2 +1,0 @@
-# ServiceApplication
-Some little tests
