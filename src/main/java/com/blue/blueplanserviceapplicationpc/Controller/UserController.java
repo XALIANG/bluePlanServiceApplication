@@ -1,6 +1,10 @@
 package com.blue.blueplanserviceapplicationpc.Controller;
 
+import com.blue.blueplanserviceapplicationpc.Model.User;
+import com.blue.blueplanserviceapplicationpc.Service.UserServiceImp;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -8,11 +12,16 @@ import org.springframework.web.bind.annotation.RestController;
  */
 
 @RestController
+@RequestMapping("/user")
 public class UserController {
 
-    @GetMapping("/blue/user")
-    public String firstRequest(){
-        return "第一个spring boot 接口";
+    @Autowired
+    UserServiceImp userServiceImp;
+
+    @GetMapping("/blue/getuser")
+    public User findUsers(Integer id){
+
+        return userServiceImp.findUser(id);
     }
 
 }

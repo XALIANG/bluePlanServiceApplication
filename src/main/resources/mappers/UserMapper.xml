@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blue.blueplanserviceapplicationpc.dao.UserDao">
+    <resultMap id="UserDao" type="com.blue.blueplanserviceapplicationpc.Model.User">
+        <id column="user_id" jdbcType="INTEGER" property="user_id" />
+        <result column="user_name" jdbcType="VARCHAR" property="user_name" />
+        <result column="user_password" jdbcType="VARCHAR" property="user_password" />
+        <result column="user_describe" jdbcType="VARCHAR" property="user_describe" />
+        <result column="user_status" jdbcType="VARCHAR" property="user_status" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    </resultMap>
+
+    <select id="selectfindUser" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from blue_user
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+</mapper>
