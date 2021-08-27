@@ -3,6 +3,10 @@ package com.blue.blueplanserviceapplicationpc.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ *  用户
+ */
+
 @RestController
 public class UserController {
 
