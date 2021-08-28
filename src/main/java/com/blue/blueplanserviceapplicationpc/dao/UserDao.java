@@ -7,7 +7,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserDao {
 
-    User selectfindUser(Integer id);
+    User selectedUser(Integer id);
 
+    int deleteUser(Integer id);
+
+    int updateUser(User user);
 
 }

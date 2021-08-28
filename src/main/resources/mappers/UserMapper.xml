@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.blue.blueplanserviceapplicationpc.dao.UserDao">
-    <resultMap id="UserDao" type="com.blue.blueplanserviceapplicationpc.Model.User">
-        <id column="user_id" jdbcType="INTEGER" property="user_id" />
-        <result column="user_name" jdbcType="VARCHAR" property="user_name" />
-        <result column="user_password" jdbcType="VARCHAR" property="user_password" />
-        <result column="user_describe" jdbcType="VARCHAR" property="user_describe" />
-        <result column="user_status" jdbcType="VARCHAR" property="user_status" />
-        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <resultMap id="User1" type="com.blue.blueplanserviceapplicationpc.Model.User">
+        <id column="userId" jdbcType="INTEGER" property="user_id" />
+        <result column="userName" jdbcType="VARCHAR" property="user_name" />
+        <result column="userPassword" jdbcType="VARCHAR" property="user_password" />
+        <result column="userDescribe" jdbcType="VARCHAR" property="user_describe" />
+        <result column="userStatus" jdbcType="VARCHAR" property="user_status" />
+        <result column="createTime" jdbcType="TIMESTAMP" property="create_time" />
+        <result column="updateTime" jdbcType="TIMESTAMP" property="update_time" />
     </resultMap>
 
-    <select id="selectfindUser" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <select id="selectedUser" parameterType="java.lang.Integer" resultMap="User1">
         select
-        <include refid="Base_Column_List" />
+            *
         from blue_user
-        where id = #{id,jdbcType=INTEGER}
+        where user_id = #{id}
     </select>
 </mapper>

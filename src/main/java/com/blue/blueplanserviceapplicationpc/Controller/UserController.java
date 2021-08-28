@@ -20,7 +20,6 @@ public class UserController {
 
     @GetMapping("/blue/getuser")
     public User findUsers(Integer id){
-
         return userServiceImp.findUser(id);
     }
 

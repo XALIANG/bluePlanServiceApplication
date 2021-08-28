@@ -14,15 +14,11 @@ import org.springframework.stereotype.Service;
 public class UserServiceImp implements UserMapper {
 
     @Autowired
-    UserMapper userMapper;
-
-    @Autowired
     UserDao userDao;
 
     @Override
     public User findUser(Integer id) {
-        User user = userDao.selectfindUser(id);
-        return user;
+        return userDao.selectedUser(id);
     }
 
     @Override
