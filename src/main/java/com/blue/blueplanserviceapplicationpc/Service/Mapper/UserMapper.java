@@ -1,6 +1,9 @@
 package com.blue.blueplanserviceapplicationpc.Service.Mapper;
 
 import com.blue.blueplanserviceapplicationpc.Model.User;
+import com.blue.blueplanserviceapplicationpc.exception.BlueMAllException;
+
+import java.util.Date;
 
 /**
  *  用户管理接口
@@ -10,7 +13,9 @@ public interface UserMapper {
 
     User findUser(Integer id);
 
-    int addUser(User user);
+    void register(String username, String password) throws BlueMAllException;
+
+    User userLogin(String userName,String password);
 
 
 }

@@ -7,10 +7,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserDao {
 
-    User selectedUser(Integer id);
+    User selectByPrimaryKey(Integer id);
 
-    int deleteUser(Integer id);
+    User selectByName(String userName);
 
-    int updateUser(User user);
-
+    int insertUser(User user);
 }

@@ -1,22 +1,29 @@
 package com.blue.blueplanserviceapplicationpc.Model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class User {
+public class User implements Serializable {
 
-    private Integer userId;
+    private String userId;
+
     private String userName;
-    private String UserPassword;
+
+    private String userPassword;
+
     private String userDescribe;
-    private String user_status;
+
+    private String userStatus;
+
     private Date createTime;
+
     private Date updateTime;
 
-    public Integer getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
@@ -25,15 +32,15 @@ public class User {
     }
 
     public void setUserName(String userName) {
-        this.userName = userName;
+        this.userName = userName == null ? null : userName.trim();
     }
 
     public String getUserPassword() {
-        return UserPassword;
+        return userPassword;
     }
 
     public void setUserPassword(String userPassword) {
-        UserPassword = userPassword;
+        this.userPassword = userPassword == null ? null : userPassword.trim();
     }
 
     public String getUserDescribe() {
@@ -41,15 +48,15 @@ public class User {
     }
 
     public void setUserDescribe(String userDescribe) {
-        this.userDescribe = userDescribe;
+        this.userDescribe = userDescribe == null ? null : userDescribe.trim();
     }
 
-    public String getUser_status() {
-        return user_status;
+    public String getUserStatus() {
+        return userStatus;
     }
 
-    public void setUser_status(String user_status) {
-        this.user_status = user_status;
+    public void setUserStatus(String userStatus) {
+        this.userStatus = userStatus == null ? null : userStatus.trim();
     }
 
     public Date getCreateTime() {
