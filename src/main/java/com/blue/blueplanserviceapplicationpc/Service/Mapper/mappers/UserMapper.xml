@@ -7,6 +7,7 @@
     <result column="user_password" jdbcType="CHAR" property="userPassword" />
     <result column="user_describe" jdbcType="VARCHAR" property="userDescribe" />
     <result column="user_status" jdbcType="CHAR" property="userStatus" />
+    <result column="user_image" jdbcType="VARCHAR" property="userImage"/>
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>

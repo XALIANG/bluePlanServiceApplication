@@ -3,6 +3,7 @@ package com.blue.blueplanserviceapplicationpc.exception;
 /**
  * 枚举 异常
  */
+
 public enum BlueExceptionEnum {
 
     NEED_USER_NAME(404, "用户名不能为空"),
@@ -11,7 +12,9 @@ public enum BlueExceptionEnum {
     NAME_EXISTED(404, "不允许重名"),
     INSERT_FAILED(404, "插入失败，请重试"),
     WRONG_PASSWORD(404, "密码错误"),
-    NEED_LOGIN(404, "用户未登录");
+    NEED_LOGIN(404, "用户未登录"),
+    NEED_NULL_USER(404, "用户不存在"),
+    DOCUMENT_ERROR(404, "文件不存在");
 
     /**
      * 异常码

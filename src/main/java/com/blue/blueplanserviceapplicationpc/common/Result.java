@@ -1,12 +1,13 @@
 package com.blue.blueplanserviceapplicationpc.common;
 
-import com.blue.blueplanserviceapplicationpc.Model.User;
 import com.blue.blueplanserviceapplicationpc.exception.BlueExceptionEnum;
+import com.blue.blueplanserviceapplicationpc.exception.ResultCode;
 
 /**
  * 通用返回结果
  */
-public class Result<T> extends User {
+public class Result<T> {
+
     private Integer status;
 
     private String msg;
@@ -43,14 +44,27 @@ public class Result<T> extends User {
     public static <T> Result<T> success(String msg, int status) {
         Result<T> response = new Result<>();
         response.setMsg(msg);
-        response.setStatus(status);
+        response.setStatus(OK_CODE);
         return response;
     }
 
-    public static <T> Result<T> success(T res) {
+    /**
+     * 成功返回结果
+     *
+     * @param data 获取的数据
+     */
+    public static <T> Result<T> success(T data) {
+        return new Result<T>((int) ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), data);
+    }
+
+    public static <T> Result<T> success(String msg, T data) {
         Result<T> response = new Result<>();
-        response.setData(res);
+        response.setMsg(msg);
+        response.setData(data);
         return response;
+    }
+
+    private void status(int status) {
     }
 
     public static <T> Result<T> error(Integer code, String msg) {
@@ -102,4 +116,6 @@ public class Result<T> extends User {
                 ", data=" + data +
                 '}';
     }
+
+
 }

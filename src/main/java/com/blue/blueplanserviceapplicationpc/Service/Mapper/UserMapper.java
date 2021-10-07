@@ -10,9 +10,6 @@ import java.util.Date;
  * @author alaing
  */
 public interface UserMapper {
-
-    User findUser(Integer id);
-
     void register(String username, String password) throws BlueMAllException;
 
     User userLogin(String userName,String password);

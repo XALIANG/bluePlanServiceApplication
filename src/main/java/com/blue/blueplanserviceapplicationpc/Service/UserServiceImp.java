@@ -11,6 +11,8 @@ import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
+
 /**
  * 用户实现类
  */
@@ -21,12 +23,16 @@ public class UserServiceImp implements UserMapper {
     @Autowired
     UserDao userDao;
 
-    @Override
-    public Result findUser(Integer id) {
+    public User findUserById(Long id){
         User user = userDao.selectByPrimaryKey(id);
-        return Result.success();
-    }
-
+        return user;
+    };
+    /**
+     *
+     * @param username
+     * @param password
+     * @throws BlueMAllException
+     */
     @Override
     public void register(String username, String password) throws BlueMAllException {
         User resultUser = userDao.selectByName(username);
@@ -34,6 +40,7 @@ public class UserServiceImp implements UserMapper {
             throw new BlueMAllException(BlueExceptionEnum.NAME_EXISTED);
         }
         User user = new User();
+//        Date currentDate = new Date();
         user.setUserId(RxUilts.getUUID());
         user.setUserName(username);
         user.setUserPassword(password);

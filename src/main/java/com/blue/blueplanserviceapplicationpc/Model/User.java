@@ -7,6 +7,10 @@ public class User implements Serializable {
 
     private String userId;
 
+    private String token;
+
+    private String userImage;
+
     private String userName;
 
     private String userPassword;
@@ -18,6 +22,23 @@ public class User implements Serializable {
     private Date createTime;
 
     private Date updateTime;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public String getUserImage() {
+        return userImage;
+    }
+
+    public void setUserImage(String userImage) {
+        this.userImage = userImage;
+    }
+
 
     public String getUserId() {
         return userId;
@@ -74,6 +95,5 @@ public class User implements Serializable {
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
-
 
 }
