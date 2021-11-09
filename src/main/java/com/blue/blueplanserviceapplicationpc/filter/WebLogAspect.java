@@ -48,5 +48,6 @@ public class WebLogAspect {
     public void doAfterReturning(Object res) throws JsonProcessingException {
         //处理完请求，返回内容
         log.info("RESPONSE : " + new ObjectMapper().writeValueAsString(res));
+        log.info("阿亮结尾");
     }
 }

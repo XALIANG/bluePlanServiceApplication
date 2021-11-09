@@ -1,15 +1,9 @@
 package com.blue.blueplanserviceapplicationpc.Model;
 
-import java.io.Serializable;
 import java.util.Date;
 
-public class User implements Serializable {
-
+public class User {
     private String userId;
-
-    private String token;
-
-    private String userImage;
 
     private String userName;
 
@@ -23,29 +17,20 @@ public class User implements Serializable {
 
     private Date updateTime;
 
-    public String getToken() {
-        return token;
-    }
+    private String userPictureUrl;
 
-    public void setToken(String token) {
-        this.token = token;
-    }
+    private Integer userMoney;
 
-    public String getUserImage() {
-        return userImage;
-    }
+    private String userImage;
 
-    public void setUserImage(String userImage) {
-        this.userImage = userImage;
-    }
-
+    private String token;
 
     public String getUserId() {
         return userId;
     }
 
     public void setUserId(String userId) {
-        this.userId = userId;
+        this.userId = userId == null ? null : userId.trim();
     }
 
     public String getUserName() {
@@ -96,4 +81,35 @@ public class User implements Serializable {
         this.updateTime = updateTime;
     }
 
+    public String getUserPictureUrl() {
+        return userPictureUrl;
+    }
+
+    public void setUserPictureUrl(String userPictureUrl) {
+        this.userPictureUrl = userPictureUrl == null ? null : userPictureUrl.trim();
+    }
+
+    public Integer getUserMoney() {
+        return userMoney;
+    }
+
+    public void setUserMoney(Integer userMoney) {
+        this.userMoney = userMoney;
+    }
+
+    public String getUserImage() {
+        return userImage;
+    }
+
+    public void setUserImage(String userImage) {
+        this.userImage = userImage == null ? null : userImage.trim();
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token == null ? null : token.trim();
+    }
 }
