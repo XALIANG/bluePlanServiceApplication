@@ -1,17 +1,17 @@
 package com.blue.blueplanserviceapplicationpc.Service;
 
 import com.blue.blueplanserviceapplicationpc.Model.User;
-import com.blue.blueplanserviceapplicationpc.Service.Mapper.UserMapper;
-import com.blue.blueplanserviceapplicationpc.common.Result;
+import com.blue.blueplanserviceapplicationpc.dao.UserMapper;
 import com.blue.blueplanserviceapplicationpc.dao.UserDao;
 import com.blue.blueplanserviceapplicationpc.exception.BlueExceptionEnum;
 import com.blue.blueplanserviceapplicationpc.exception.BlueMAllException;
 import com.blue.blueplanserviceapplicationpc.utils.RxUilts;
-import lombok.SneakyThrows;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
+import java.util.List;
 
 /**
  * 用户实现类
@@ -23,12 +23,14 @@ public class UserServiceImp implements UserMapper {
     @Autowired
     UserDao userDao;
 
-    public User findUserById(Long id){
+    public User findUserById(String id) {
         User user = userDao.selectByPrimaryKey(id);
         return user;
-    };
+    }
+
+    ;
+
     /**
-     *
      * @param username
      * @param password
      * @throws BlueMAllException
@@ -40,10 +42,12 @@ public class UserServiceImp implements UserMapper {
             throw new BlueMAllException(BlueExceptionEnum.NAME_EXISTED);
         }
         User user = new User();
-//        Date currentDate = new Date();
         user.setUserId(RxUilts.getUUID());
         user.setUserName(username);
         user.setUserPassword(password);
+        user.setUserMoney(0);
+        user.setCreateTime(new java.util.Date());
+        user.setUpdateTime(new java.util.Date());
         int count = userDao.insertUser(user);
         if (count == 0) {
             throw new BlueMAllException(BlueExceptionEnum.INSERT_FAILED);
@@ -51,9 +55,24 @@ public class UserServiceImp implements UserMapper {
     }
 
     @Override
-    public User userLogin(String userName,String password) {
+    public User userLogin(String userName, String password) {
         User user = userDao.selectByName(userName);
         return user;
+    }
+
+    @Override
+    public PageInfo<User> getListPage(int page, int size) {
+        List<User> userPage = userDao.getUserList();
+        PageHelper.startPage(page, size);
+        PageInfo<User> list = new PageInfo<>(userPage);
+        return list;
+    }
+
+    @Override
+    public void updateUserStatusCode(String userId, String userStatus) {
+       int count =  userDao.updateUserStatusCode(userId, userStatus);
+        System.out.println(count);
+
     }
 
 

@@ -7,6 +7,7 @@
     <result column="user_password" jdbcType="CHAR" property="userPassword"/>
     <result column="user_describe" jdbcType="VARCHAR" property="userDescribe"/>
     <result column="user_image" jdbcType="VARCHAR" property="userImage"/>
+    <result column="user_money" jdbcType="VARCHAR" property="userMoney"/>
     <result column="user_status" jdbcType="CHAR" property="userStatus"/>
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
@@ -15,7 +16,7 @@
     user_id
     , user_name, user_password, user_describe, user_status,user_image, create_time, update_time
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List"/>
     from blue_user
@@ -107,6 +108,16 @@
     </set>
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
+
+  <update id="updateUserStatusCode" parameterType="com.blue.blueplanserviceapplicationpc.Model.User">
+    update blue_user
+    <set>
+    <if test="userStatus != null">
+      user_status = #{userStatus,jdbcType=CHAR},
+    </if>
+    </set>
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </update>
   <update id="updateByPrimaryKey" parameterType="com.blue.blueplanserviceapplicationpc.Model.User">
     update blue_user
     set user_name     = #{userName,jdbcType=VARCHAR},
@@ -137,6 +148,12 @@
     <include refid="Base_Column_List"/>
     from blue_user
     where user_name = #{userName,jdbcType=VARCHAR}
+  </select>
+
+  <select id="getUserList" parameterType="map"  resultMap="BaseResultMap">
+    select
+      user_id,user_name,  user_describe, user_status,user_image, create_time, update_time,user_money
+    from blue_user
   </select>
 
   <!--    &lt;insert id="insertUser" parameterType="com.blue.blueplanserviceapplicationpc.Model.User"&gt;-->

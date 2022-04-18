@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blue.blueplanserviceapplicationpc.dao.StoreDao">
+    <resultMap id="BaseResultMap" type="com.blue.blueplanserviceapplicationpc.Model.Store">
+        <id column="commodity_id" jdbcType="INTEGER" property="commodityId"/>
+        <result column="relevance_id" jdbcType="INTEGER" property="relevanceId"/>
+        <result column="commodity_name" jdbcType="CHAR" property="commodityName"/>
+        <result column="commodity_image" jdbcType="VARCHAR" property="commodityImage"/>
+        <result column="commodity_price" jdbcType="CHAR" property="commodityPrice"/>
+    </resultMap>
+
+    <select id="selectedContentProduct" parameterType="map" resultMap="BaseResultMap">
+        select distinct cp.*
+        from content c
+                 JOIN content_product cp ON cp.relevance_id = #{contentId,jdbcType=INTEGER}
+    </select>
+
+    <select id="getStoreContentList" parameterType="map" resultMap="BaseResultMap">
+        select *
+        from content_product
+    </select>
+
+
+</mapper>

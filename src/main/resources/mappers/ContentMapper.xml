@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blue.blueplanserviceapplicationpc.dao.ContentDao">
+    <resultMap id="BaseResultMap" type="com.blue.blueplanserviceapplicationpc.Model.ContentText">
+        <id column="content_id" jdbcType="INTEGER" property="contentId"/>
+        <result column="content_name" jdbcType="VARCHAR" property="contentName"/>
+        <result column="content_age" jdbcType="INTEGER" property="contentAge"/>
+        <result column="content_describe" jdbcType="VARCHAR" property="contentDescribe"/>
+    </resultMap>
+
+    <select id="getContentTextList" parameterType="map"  resultMap="BaseResultMap">
+        select
+            content_id,content_name,content_age,content_describe
+        from content ORDER BY content_id DESC
+    </select>
+    <delete id="deleteByPrimaryKeyContent" parameterType="java.lang.Integer">
+        delete
+        from content
+        where content_id = #{userId,jdbcType=INTEGER}
+    </delete>
+    <insert id="insertSelective" parameterType="com.blue.blueplanserviceapplicationpc.Model.User">
+        insert into content
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="userName != null">
+                user_name,
+            </if>
+            <if test="userPassword != null">
+                user_password,
+            </if>
+            <if test="userDescribe != null">
+                user_describe,
+            </if>
+            <if test="userStatus != null">
+                user_status,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="userName != null">
+                #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="userPassword != null">
+                #{userPassword,jdbcType=CHAR},
+            </if>
+            <if test="userDescribe != null">
+                #{userDescribe,jdbcType=VARCHAR},
+            </if>
+            <if test="userStatus != null">
+                #{userStatus,jdbcType=CHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelectiveContent" parameterType="com.blue.blueplanserviceapplicationpc.Model.ContentText">
+        update content
+        <set>
+            <if test="contentName != null">
+                content_name = #{contentName,jdbcType=VARCHAR},
+            </if>
+            <if test="contentAge != null">
+                content_age = #{contentAge,jdbcType=INTEGER},
+            </if>
+            <if test="contentDescribe != null">
+                content_describe = #{contentDescribe,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where content_id = #{contentId,jdbcType=INTEGER}
+    </update>
+    <select id="selectedContentText" parameterType="map" resultMap="BaseResultMap">
+        select *
+        from content
+        where content_name = #{contentName,jdbcType=VARCHAR} OR content_age = #{contentAge,jdbcType=INTEGER} OR content_describe = #{contentDescribe,jdbcType=VARCHAR}
+    </select>
+
+
+    <insert id="insertContent" parameterType="com.blue.blueplanserviceapplicationpc.Model.ContentText">
+        insert into content
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+
+            <if test="contentName != null">
+                content_name,
+            </if>
+            <if test="contentAge != null">
+                content_age,
+            </if>
+            <if test="contentDescribe != null">
+                content_describe
+            </if>
+
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+
+            <if test="contentName != null">
+                #{contentName,jdbcType=VARCHAR},
+            </if>
+            <if test="contentAge != null">
+                #{contentAge,jdbcType=INTEGER},
+            </if>
+            <if test="contentDescribe != null">
+                #{contentDescribe,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+</mapper>

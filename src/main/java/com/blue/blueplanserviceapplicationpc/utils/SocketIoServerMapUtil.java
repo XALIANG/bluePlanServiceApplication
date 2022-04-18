@@ -21,9 +21,7 @@ public class SocketIoServerMapUtil {
         webSocketMap.remove(key);
     }
 
-    public static Collection<SocketIOClient> getValues() {
-        return webSocketMap.values();
-    }
+    public static Collection<SocketIOClient> getValues() { return webSocketMap.values(); }
 
     public static ConcurrentMap<String, SocketIOClient> getWebSocketMap() {
         return webSocketMap;

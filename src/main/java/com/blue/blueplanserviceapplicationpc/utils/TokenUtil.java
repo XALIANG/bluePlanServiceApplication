@@ -2,10 +2,15 @@ package com.blue.blueplanserviceapplicationpc.utils;
 
 
 import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTCreator;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.Claim;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.blue.blueplanserviceapplicationpc.Model.User;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Map;
 
 public class TokenUtil {
     /**
@@ -13,7 +18,7 @@ public class TokenUtil {
      * @date 2020/2/17 10:56
      */
     //设置过期时间为1个小时
-    private static final Long EXPIRE_TIME = Long.valueOf(1 * 60 * 60 * 1000);
+    private static final Long EXPIRE_TIME = Long.valueOf(14400000);
 
     public static String getToken(User user) {
         String token = "";
@@ -23,4 +28,14 @@ public class TokenUtil {
         return token;
 
     }
+
+    public Date obtainJwtDate(String token){
+        //过期执行踢出
+        DecodedJWT jwt = JWT.decode(token);
+        Map<String, Claim> claimMap = jwt.getClaims();
+        Claim exp = claimMap.get("exp");
+        Date date = exp.asDate();
+        return date;
+    }
+
 }

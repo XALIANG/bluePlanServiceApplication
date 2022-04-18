@@ -1,24 +1,28 @@
 package com.blue.blueplanserviceapplicationpc.Controller;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
+import com.auth0.jwt.JWT;
 import com.blue.blueplanserviceapplicationpc.Model.User;
 import com.blue.blueplanserviceapplicationpc.Service.UserServiceImp;
 import com.blue.blueplanserviceapplicationpc.common.Result;
+import com.blue.blueplanserviceapplicationpc.core.CommonPage;
 import com.blue.blueplanserviceapplicationpc.exception.BlueExceptionEnum;
 import com.blue.blueplanserviceapplicationpc.exception.BlueMAllException;
 import com.blue.blueplanserviceapplicationpc.utils.DateUtils;
+import com.blue.blueplanserviceapplicationpc.utils.MD5Utils;
 import com.blue.blueplanserviceapplicationpc.utils.RxUilts;
 import com.blue.blueplanserviceapplicationpc.utils.TokenUtil;
+import com.github.pagehelper.PageInfo;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
@@ -26,7 +30,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 
 
@@ -68,9 +71,14 @@ public class UserController {
 
     @ApiOperation("用户登录")
     @PostMapping("/blue/login")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "userName", value = "用户名", required = true, dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "password", value = "密码", required = true, dataType = "String", paramType = "query"),
+    })
     @ResponseBody
     public Result userLogin(@RequestParam("userName") String userName, @RequestParam("password") String password, @RequestParam("code") String code, HttpSession session) {
         String serverCode = (String) session.getAttribute("code");
+
         User user = userServiceImp.userLogin(userName, password);
         if (null == user) {
             return Result.error(BlueExceptionEnum.NEED_NULL_USER);
@@ -79,15 +87,53 @@ public class UserController {
         if (null == userName || password == null) {
             Result.error(400, "不得为空");
         }
-        if (null == code || serverCode == null || !serverCode.equalsIgnoreCase(code)) {
+        if (serverCode == null) {
+            return Result.error(404, "接收验证码失败");
+        }
+        if (null == code || !serverCode.equalsIgnoreCase(code)) {
             return Result.error(404, "验证码错误");
         }
         if (!user.getUserPassword().equals(password)) {
             return Result.error(BlueExceptionEnum.WRONG_PASSWORD);
         }
         user.setToken(token);
+        user.setUserPassword(MD5Utils.stringToMD5(user.getUserPassword()));
         return Result.success(user);
     }
+
+    @PostMapping("/public/action")
+    public Result obtainUserAction(HttpServletRequest request) {
+        String token = request.getHeader("Authorization");
+        String[] userTokenSplit = token.split(" ");
+        String userId = JWT.decode(userTokenSplit[1]).getAudience().get(0);
+        User user = userServiceImp.findUserById(userId);
+
+        return Result.success();
+    }
+
+    @GetMapping("blue/set_code")
+    public Result setUserStatusCode(String userId) {
+        userServiceImp.updateUserStatusCode(userId, "1");
+        return Result.success("设置成功");
+    }
+
+    @GetMapping("blue/out_code")
+    public Result outUserStatusCode(String userId) {
+        userServiceImp.updateUserStatusCode(userId, "0");
+        return Result.success("设置成功");
+    }
+
+    @ApiOperation("用户分页列表")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "page", value = "当前页", required = true, dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "limit", value = "每页显示数量", required = true, dataType = "String", paramType = "query"),
+    })
+    @GetMapping("/public/list")
+    public CommonPage<User> userList(int page, int limit) {
+        PageInfo<User> userList = userServiceImp.getListPage(page, limit);
+        return CommonPage.restPage(userList, 200);
+    }
+
 
     @ApiOperation(value = "头像上传", httpMethod = "POST")
     @PostMapping("/blue/update_header")
@@ -136,7 +182,7 @@ public class UserController {
         } else {
             return Result.error(BlueExceptionEnum.DOCUMENT_ERROR);
         }
-        String finalUserFaceUrl = "localhost:9999/Users/86156/Desktop/blue/image" +uploadPathPrefix + "?t=" + DateUtils.dateToTime(new Date());
+        String finalUserFaceUrl = "localhost:9999/Users/86156/Desktop/blue/image" + uploadPathPrefix + "?t=" + DateUtils.dateToTime(new Date());
         return Result.success("上传成功", finalUserFaceUrl);
     }
 }

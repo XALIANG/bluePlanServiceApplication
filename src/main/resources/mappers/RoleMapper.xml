@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blue.blueplanserviceapplicationpc.dao.RoleDao">
+    <resultMap id="BaseResultMap" type="com.blue.blueplanserviceapplicationpc.Model.Role">
+        <id column="role_id" jdbcType="INTEGER" property="roleId"/>
+        <result column="role_name" jdbcType="CHAR" property="roleName"/>
+        <result column="role_description" jdbcType="VARCHAR" property="roleDescription"/>
+        <result column="role_privilege" jdbcType="VARCHAR" property="rolePrivilege"/>
+    </resultMap>
+
+    <select id="getRoleList" parameterType="map" resultMap="BaseResultMap">
+        select distinct *
+        from blue_role ORDER BY role_id DESC
+    </select>
+
+    <select id="getStoreContentList" parameterType="map" resultMap="BaseResultMap">
+        select *
+        from content_product
+    </select>
+
+
+</mapper>

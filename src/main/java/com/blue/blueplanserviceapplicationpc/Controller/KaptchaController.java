@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.imageio.ImageIO;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
@@ -30,18 +31,18 @@ public class KaptchaController {
     @GetMapping("/code")
     public void generation(HttpServletResponse response, HttpSession session) {
         String text = RandomStringUtils.randomAlphanumeric(4);
-
         log.info("生成验证码：{}", text);
 
         BufferedImage image = producer.createImage(text);
 
         //缓存验证码
         cacheManager.getCache("kaptcha").put(text, text);
-        session.setAttribute("code",text);
+        session.setAttribute("code", text);
         System.out.println(session.getAttribute("code"));
+
         //set content type
         response.setDateHeader("Expires", 0);
-        response.setHeader("Cache-Control","no-store,no-cache");
+        response.setHeader("Cache-Control", "no-store,no-cache");
         response.setHeader("Pragma", "no-cache");
         response.setContentType(MediaType.IMAGE_JPEG.getType());
         try {
